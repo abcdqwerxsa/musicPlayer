@@ -84,120 +84,149 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
 
   if (!track) {
     return (
-      <Card className="fixed bottom-0 left-0 right-0 z-50 rounded-none border-t bg-card shadow-2xl">
-        <CardContent className="flex items-center justify-center p-4 h-20">
-          <p className="text-muted-foreground">Select a track to start playing.</p>
-        </CardContent>
-      </Card>
+      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-4xl z-50 rounded-2xl glass-panel shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10">
+        <div className="flex items-center justify-center p-4 h-20">
+          <p className="text-muted-foreground text-sm tracking-wide">在上方媒体库选择一首歌曲开始播放 🎵</p>
+        </div>
+      </div>
     );
   }
 
   return (
-    <Card className="fixed bottom-0 left-0 right-0 z-50 rounded-none border-t bg-card shadow-2xl">
-      <CardContent className="flex items-center justify-between p-4 h-20">
+    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-4xl z-50 rounded-2xl glass-panel shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10 p-4 md:py-3 md:px-6">
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4 md:gap-0">
         
-        {/* Audio Element (Hidden) */}
+        {/* 隐藏的 HTML5 播放器音频元素 */}
         <audio
           ref={audioRef}
           preload="metadata"
         />
 
-        {/* Track Info (Left) */}
-        <div className="flex items-center w-1/4 min-w-0 group cursor-default">
-          <div className="h-12 w-12 bg-primary/10 rounded-lg mr-3 flex items-center justify-center text-primary transition-colors group-hover:bg-primary/20">
-            {/* Placeholder for Album Art - Using a music icon */}
-            <Volume2 className="h-5 w-5" />
-          </div>
-          <div className="truncate">
-            <p className="text-sm font-semibold truncate group-hover:text-primary transition-colors">{track.title}</p>
-            <p className="text-xs text-muted-foreground truncate">{track.artist}</p>
+        {/* 歌曲基本信息 (左侧) */}
+        <div className="flex items-center w-full md:w-1/4 min-w-0 group justify-between md:justify-start">
+          <div className="flex items-center min-w-0">
+            {/* 迷你黑胶旋转缩影 */}
+            <div 
+              className={cn(
+                "h-11 w-11 rounded-full bg-gradient-to-tr from-zinc-900 to-zinc-950 mr-3 flex items-center justify-center relative border border-white/10 shadow-lg flex-shrink-0 transition-transform ease-out",
+                isPlaying ? "animate-vinyl" : ""
+              )}
+              style={{ transitionDuration: '6000ms' }}
+            >
+              <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center relative overflow-hidden">
+                <div className="w-1.5 h-1.5 bg-[#07070a] rounded-full border border-zinc-800" />
+              </div>
+            </div>
+            <div className="truncate">
+              <p className="text-sm font-semibold text-white truncate group-hover:text-primary transition-colors duration-300">
+                {track.title}
+              </p>
+              <p className="text-xs text-muted-foreground/75 truncate mt-0.5">{track.artist}</p>
+            </div>
           </div>
         </div>
 
-        {/* Controls and Progress (Center) */}
-        <div className="flex flex-col items-center w-1/2 px-4">
+        {/* 播放控制与进度条 (中间) */}
+        <div className="flex flex-col items-center w-full md:w-1/2 px-0 md:px-4">
           
-          {/* Controls */}
-          <div className="flex space-x-6 mb-2 items-center">
+          {/* 控制按钮组 */}
+          <div className="flex space-x-6 mb-2.5 items-center">
             
-            {/* Playback Mode Toggle */}
+            {/* 播放模式切换 */}
             <Button 
               variant="ghost" 
               size="icon" 
               className={cn(
-                "h-8 w-8 transition-colors",
+                "h-8 w-8 hover:bg-white/5 active:scale-95 transition-all text-muted-foreground hover:text-white rounded-full",
                 modeClassName
               )}
               onClick={togglePlaybackMode}
               title={modeTitle}
             >
-              <ModeIcon className="h-4 w-4" />
+              <ModeIcon className="h-4.5 w-4.5" />
             </Button>
 
-            {/* Previous Track */}
+            {/* 上一首 */}
             <Button 
               variant="ghost" 
               size="icon" 
-              className="h-8 w-8 text-muted-foreground hover:text-primary transition-colors"
+              className="h-8 w-8 hover:bg-white/5 text-muted-foreground hover:text-white active:scale-95 transition-all rounded-full"
               onClick={playPreviousTrack}
             >
-              <SkipBack className="h-4 w-4" />
+              <SkipBack className="h-4.5 w-4.5 fill-current" />
             </Button>
             
-            {/* Play/Pause */}
+            {/* 播放/暂停大圆钮 */}
             <Button 
               variant="default" 
               size="icon" 
-              className="h-10 w-10 rounded-full shadow-lg hover:shadow-xl transition-shadow"
+              className="h-11 w-11 rounded-full bg-gradient-to-tr from-primary to-indigo-500 text-white shadow-[0_4px_15px_rgba(120,119,198,0.45)] hover:opacity-95 active:scale-95 transition-all border border-white/10"
               onClick={togglePlayPause}
             >
-              {isPlaying ? <Pause className="h-5 w-5 fill-current" /> : <Play className="h-5 w-5 fill-current" />}
+              {isPlaying ? (
+                <Pause className="h-5 w-5 fill-current text-white" />
+              ) : (
+                <Play className="h-5 w-5 fill-current text-white translate-x-0.5" />
+              )}
             </Button>
             
-            {/* Next Track */}
+            {/* 下一首 */}
             <Button 
               variant="ghost" 
               size="icon" 
-              className="h-8 w-8 text-muted-foreground hover:text-primary transition-colors"
+              className="h-8 w-8 hover:bg-white/5 text-muted-foreground hover:text-white active:scale-95 transition-all rounded-full"
               onClick={playNextTrack}
             >
-              <SkipForward className="h-4 w-4" />
+              <SkipForward className="h-4.5 w-4.5 fill-current" />
             </Button>
             
-            {/* Placeholder for future features (e.g., Shuffle) */}
+            {/* 空白占位符（可用于未来扩展） */}
             <div className="h-8 w-8"></div> 
           </div>
 
-          {/* Progress Bar */}
-          <div className="flex items-center w-full space-x-3">
-            <span className="text-xs text-muted-foreground w-8 text-right">{formatTime(currentTime)}</span>
-            <Slider
-              value={[currentTime]}
-              max={duration || 0}
-              step={0.1}
-              onValueChange={handleSliderSeek}
-              className="w-full cursor-pointer"
-              disabled={duration === 0}
-            />
-            <span className="text-xs text-muted-foreground w-8 text-left">{formatTime(duration)}</span>
+          {/* 歌曲播放进度条 */}
+          <div className="flex items-center w-full space-x-3 group/slider">
+            <span className="text-[10px] font-mono text-muted-foreground/80 w-8 text-right">{formatTime(currentTime)}</span>
+            <div className="flex-1 py-1">
+              <Slider
+                value={[currentTime]}
+                max={duration || 0}
+                step={0.1}
+                onValueChange={handleSliderSeek}
+                className="cursor-pointer"
+                disabled={duration === 0}
+              />
+            </div>
+            <span className="text-[10px] font-mono text-muted-foreground/80 w-8 text-left">{formatTime(duration)}</span>
           </div>
         </div>
 
-        {/* Volume Control (Right) */}
-        <div className="flex items-center justify-end w-1/4 space-x-2">
-          <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-primary transition-colors" onClick={toggleMute}>
-            {isMuted || volume === 0 ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+        {/* 音量大小调节 (右侧) */}
+        <div className="hidden md:flex items-center justify-end w-1/4 space-x-2 group/volume">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="h-8 w-8 text-muted-foreground hover:text-white hover:bg-white/5 rounded-full transition-all" 
+            onClick={toggleMute}
+          >
+            {isMuted || volume === 0 ? (
+              <VolumeX className="h-4 w-4" />
+            ) : (
+              <Volume2 className="h-4 w-4" />
+            )}
           </Button>
-          <Slider
-            value={[isMuted ? 0 : volume * 100]}
-            max={100}
-            step={1}
-            onValueChange={handleSliderVolumeChange}
-            className="w-24 cursor-pointer"
-          />
+          <div className="w-20 py-1">
+            <Slider
+              value={[isMuted ? 0 : volume * 100]}
+              max={100}
+              step={1}
+              onValueChange={handleSliderVolumeChange}
+              className="cursor-pointer"
+            />
+          </div>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 };
 

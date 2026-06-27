@@ -83,17 +83,23 @@ const Index: React.FC = () => {
   // --- Common Header Content ---
   const headerContent = (
     <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-6 border-b border-white/5 gap-4 relative z-10">
-      <div>
-        <div className="flex items-center gap-2">
-          <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-orange-500/10 text-orange-400 border border-orange-500/20 flex items-center gap-1.5 backdrop-blur-md tracking-wider">
-            <span className="w-1.5 h-1.5 rounded-full bg-orange-400 animate-pulse" />
-            CLOUDFLARE POWERED
-          </span>
+      <div className="flex items-center gap-3">
+        <img 
+          src="/favicon.png" 
+          className="w-12 h-12 rounded-xl border border-white/10 shadow-[0_4px_20px_rgba(139,92,246,0.15)] flex-shrink-0" 
+          alt="Aura Logo" 
+        />
+        <div>
+          <div className="flex items-center gap-2">
+            <span className="px-2 py-0.5 rounded-full text-[9px] font-extrabold bg-orange-500/10 text-orange-400 border border-orange-500/20 flex items-center gap-1 backdrop-blur-md tracking-wider uppercase">
+              <span className="w-1 h-1 rounded-full bg-orange-400 animate-pulse" />
+              CLOUDFLARE POWERED
+            </span>
+          </div>
+          <h1 className="text-2xl font-extrabold tracking-tighter text-white bg-clip-text bg-gradient-to-r from-white via-zinc-100 to-zinc-450">
+            Aura Music Console
+          </h1>
         </div>
-        <h1 className="text-3xl font-extrabold tracking-tighter text-white mt-2 bg-clip-text bg-gradient-to-r from-white via-zinc-200 to-zinc-400">
-          Aura Music Console
-        </h1>
-        <p className="text-muted-foreground mt-1 text-sm">沉浸式歌词同步音乐播放中心</p>
       </div>
       <UploadDialog onUploadSuccess={handleUploadSuccess} />
     </header>
